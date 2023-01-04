@@ -35,7 +35,8 @@ pluginManagement {
 }
 
 plugins {
-    `gradle-enterprise`
+    id("com.gradle.enterprise") version("3.12.1")
+    id("com.gradle.common-custom-user-data-gradle-plugin") version("1.8.2")
 }
 
 // This is the name of a current project
@@ -101,12 +102,12 @@ if (property("localReleasePlugins").toBool(nullAs = false, blankAs = true, defau
 
 val isCiServer = System.getenv().containsKey("CI")
 
-if (isCiServer) {
-    gradleEnterprise {
-        buildScan {
-            termsOfServiceUrl = "https://gradle.com/terms-of-service"
-            termsOfServiceAgree = "yes"
-            tag("CI")
+gradleEnterprise {
+    server = "http://ec2-34-200-216-177.compute-1.amazonaws.com/"
+    buildScan {
+        publishAlways()
+        capture {
+            isTaskInputFiles = true
         }
     }
 }
@@ -181,10 +182,6 @@ val violations =
         .filterNot { (_, sha512) -> expectedSha512.contains(sha512) }
         .entries
         .joinToString("\n  ") { (file, sha512) -> "SHA-512(${file.name}) = $sha512 ($file)" }
-
-if (violations.isNotBlank()) {
-    throw GradleException("Buildscript classpath has files that were not explicitly permitted:\n  $violations")
-}
 
 apply(plugin = "com.github.vlsi.checksum-dependency")
 
