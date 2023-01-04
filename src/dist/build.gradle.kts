@@ -531,10 +531,10 @@ fun CrLfSpec.sourceLayout() = copySpec {
         // Note: this is a "license + third-party licenses", not just Apache-2.0
         // Note: files(...) adds both "files" and "dependency"
         from(files(srcLicense))
-        // Include all the source files
         from(rootDir) {
             gitignore(gitProps)
             excludeLicenseFromSourceRelease()
+            exclude("src/dist-check/temp")
         }
     }
 }
