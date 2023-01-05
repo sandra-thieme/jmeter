@@ -138,6 +138,7 @@ inline fun <reified T : BatchTest> createBatchTask(
         if (action != null) {
             action()
         }
+        outputs.upToDateWhen { true }
     }.also {
         batchTests.configure {
             dependsOn(it)
