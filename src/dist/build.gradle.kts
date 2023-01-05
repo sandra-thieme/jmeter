@@ -340,6 +340,7 @@ fun createAnakiaTask(
         )
         inputs.property("extension", extension)
         outputs.dir(outputDir)
+        outputs.cacheIf { true }
         dependsOn(prepareProps)
 
         doLast {
