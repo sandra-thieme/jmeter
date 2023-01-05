@@ -576,22 +576,22 @@ allprojects {
                     }
                 }
             }
-            afterEvaluate {
-                // Add default license/notice when missing (e.g. see :src:config that overrides LICENSE)
-                withType<Jar>().configureEach {
-                    CrLfSpec(LineEndings.LF).run {
-                        into("META-INF") {
-                            filteringCharset = "UTF-8"
-                            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-                            // Note: we need "generic Apache-2.0" text without third-party items
-                            // So we use the text from $rootDir/config/ since source distribution
-                            // contains altered text at $rootDir/LICENSE
-                            textFrom("$rootDir/config/LICENSE")
-                            textFrom("$rootDir/NOTICE")
-                        }
+//            afterEvaluate {
+            // Add default license/notice when missing (e.g. see :src:config that overrides LICENSE)
+            withType<Jar>().configureEach {
+                CrLfSpec(LineEndings.LF).run {
+                    into("META-INF") {
+                        filteringCharset = "UTF-8"
+                        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+                        // Note: we need "generic Apache-2.0" text without third-party items
+                        // So we use the text from $rootDir/config/ since source distribution
+                        // contains altered text at $rootDir/LICENSE
+                        textFrom("$rootDir/config/LICENSE")
+                        textFrom("$rootDir/NOTICE")
                     }
                 }
             }
+//            }
             withType<Jar>().configureEach {
                 manifest {
                     attributes["Bundle-License"] = "Apache-2.0"

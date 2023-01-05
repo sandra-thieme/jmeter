@@ -30,6 +30,7 @@ dependencies {
 
 tasks.named<Jar>(JavaPlugin.JAR_TASK_NAME) {
     into("META-INF") {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
         // License file should include licenses for bundled third-party components
         CrLfSpec(LineEndings.LF).run {
             // Note: license content is taken from "/build/..", so gitignore should not be used
