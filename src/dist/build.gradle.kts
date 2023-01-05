@@ -443,6 +443,7 @@ val processSiteXslt by tasks.registering {
     inputs.files(xdocs)
     inputs.property("year", lastEditYear)
     outputs.dir(outputDir)
+    outputs.cacheIf { true }
 
     doLast {
         for (f in (outputs as TaskOutputsInternal).previousOutputFiles) {

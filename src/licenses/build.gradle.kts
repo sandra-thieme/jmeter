@@ -50,6 +50,7 @@ fun gradleWrapperVersion(wrapperProps: String) =
     }
 
 val gatherSourceLicenses by tasks.registering(GatherLicenseTask::class) {
+    outputs.cacheIf { true }
     val wrapperProps = "$rootDir/gradle/wrapper/gradle-wrapper.properties"
     inputs.file(wrapperProps)
     addDependency("org.gradle:gradle-wrapper:${gradleWrapperVersion(wrapperProps)}", SpdxLicense.Apache_2_0)
@@ -73,6 +74,9 @@ val gatherBinaryLicenses by tasks.registering(GatherLicenseTask::class) {
     configuration(binaryDependencies)
     ignoreMissingLicenseFor.add(SpdxLicense.Apache_2_0.asExpression())
     defaultTextFor.add(SpdxLicense.MPL_2_0.asExpression())
+
+    outputs.cacheIf { true }
+
     // There are three major cases here:
     // 1. License id needs to be overridden (e.g. "BSD style" -> BSD-3-Clause)
     // 2. Jar file misses LICENSE/NOTICE files, thus we need to specify local folder with relevant files (e.g. licenses/rsyntaxtextarea)
