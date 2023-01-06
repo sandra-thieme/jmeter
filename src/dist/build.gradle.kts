@@ -330,14 +330,14 @@ fun createAnakiaTask(
     }
 
     return tasks.register(taskName) {
-        inputs.file("$baseDir/$style")
-        inputs.file("$baseDir/$projectFile")
+        inputs.file("$baseDir/$style").withPathSensitivity(PathSensitivity.RELATIVE).withPropertyName("styleDir")
+        inputs.file("$baseDir/$projectFile").withPathSensitivity(PathSensitivity.RELATIVE).withPropertyName("projectDir")
         inputs.files(
             fileTree(baseDir) {
                 include(*includes)
                 exclude(*excludes)
             }
-        )
+        ).withPathSensitivity(PathSensitivity.RELATIVE).withPropertyName("baseDir")
         inputs.property("extension", extension)
         outputs.dir(outputDir)
         outputs.cacheIf { true }
@@ -366,6 +366,7 @@ fun createAnakiaTask(
     }
 }
 
+// TODO absolute path
 val xdocs = "$rootDir/xdocs"
 
 fun CopySpec.docCssAndImages() {
@@ -440,7 +441,7 @@ fun xslt(
 
 val processSiteXslt by tasks.registering {
     val outputDir = "$buildDir/siteXslt"
-    inputs.files(xdocs)
+    inputs.files(xdocs).withPathSensitivity(PathSensitivity.RELATIVE).withPropertyName("xdocs")
     inputs.property("year", lastEditYear)
     outputs.dir(outputDir)
     outputs.cacheIf { true }

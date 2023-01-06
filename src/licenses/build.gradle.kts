@@ -51,8 +51,9 @@ fun gradleWrapperVersion(wrapperProps: String) =
 
 val gatherSourceLicenses by tasks.registering(GatherLicenseTask::class) {
     outputs.cacheIf { true }
+    // TODO absolute path
     val wrapperProps = "$rootDir/gradle/wrapper/gradle-wrapper.properties"
-    inputs.file(wrapperProps)
+    inputs.file(wrapperProps).withPathSensitivity(PathSensitivity.RELATIVE).withPropertyName("wrapper.props")
     addDependency("org.gradle:gradle-wrapper:${gradleWrapperVersion(wrapperProps)}", SpdxLicense.Apache_2_0)
     addDependency(":bootstrap:3.3.4", SpdxLicense.MIT)
     addDependency(":bootstrap-social:4.8.0", SpdxLicense.MIT)
