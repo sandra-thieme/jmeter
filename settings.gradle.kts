@@ -32,6 +32,8 @@ pluginManagement {
         idv("org.nosphere.apache.rat")
         idv("org.sonarqube")
     }
+
+//    includeBuild("/Users/sandra/git/vlsi-release-plugins")
 }
 
 plugins {
